@@ -1,5 +1,17 @@
 console.log("postman clone");
 
+// utility functions:
+
+//1. function to get dom element from string
+function getElementFromString(string){
+    let div=document.createElement('div');
+    div.innerHTML=string;
+    return div.firstElementChild;
+
+}
+
+
+
 //initialise no. of parameters
 let addedParamCount=0;
 
@@ -26,7 +38,7 @@ jsonRadio.addEventListener('click', () => {
 let addParam = document.getElementById('addParam')
 addParam.addEventListener('click', () => {
     let params = document.getElementById('params'); //taking the empty area to add
-    let string = ` <div class="form-row">
+    let string = ` <div class="form-row my-2">
 <label for="url" class="col-sm-2 col-form-label">Parameter ${addedParamCount+2}</label>
 <div class="col-md-4">
     <input type="text" class="form-control" id="parameterKey${addedParamCount+2}" placeholder="Enter Parameter ${addedParamCount+2} Key">
@@ -35,8 +47,38 @@ addParam.addEventListener('click', () => {
     <input type="text" class="form-control" id="parameterValue${addedParamCount+2}"
         placeholder="Enter Parameter ${addedParamCount+2} Value">
 </div>
-<button id="addParam" class="btn btn-primary">-</button>
+<button class="btn btn-primary deleteParam">-</button>
 </div>
 <div id="params"></div>
-</div>`
+</div>`;
+
+//convert the element string to dom node
+let paramElement=getElementFromString(string);
+params.appendChild(paramElement);
+//add an eventListener to delete a param on clicking -
+let deleteParam=document.getElementsByClassName('deleteParam');
+for (item of deleteParam){
+    item.addEventListener('click',(e)=>{
+        //add a confirmation box to confirm parameter deletion
+        e.target.parentElement.remove();
+    })
+}
+addedParamCount++;
+})
+
+
+//if the user clicks on submit button
+let submit=document.getElementById('submit');
+submit.addEventListener('click',()=>{
+  document.getElementById('responseJsonText').value= "please wait...Fetching response" ;
+
+  //fetch all the values,user has entered
+  let url=document.getElementById("url").value;
+  let requestType=document.querySelector("input[name='requestType']:checked").value;
+  let contentType=document.querySelector("input[name='contentType']:checked").value;
+
+
+  console.log("url is",url);
+  console.log("requestType is",requestType);
+  console.log("content type is",contentType);
 })
