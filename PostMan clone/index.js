@@ -3,9 +3,9 @@ console.log("postman clone");
 // utility functions:
 
 //1. function to get dom element from string
-function getElementFromString(string){
-    let div=document.createElement('div');
-    div.innerHTML=string;
+function getElementFromString(string) {
+    let div = document.createElement('div');
+    div.innerHTML = string;
     return div.firstElementChild;
 
 }
@@ -13,7 +13,7 @@ function getElementFromString(string){
 
 
 //initialise no. of parameters
-let addedParamCount=0;
+let addedParamCount = 0;
 
 // parameters box should hide initially
 let parametersBox = document.getElementById('parametersBox');
@@ -39,46 +39,66 @@ let addParam = document.getElementById('addParam')
 addParam.addEventListener('click', () => {
     let params = document.getElementById('params'); //taking the empty area to add
     let string = ` <div class="form-row my-2">
-<label for="url" class="col-sm-2 col-form-label">Parameter ${addedParamCount+2}</label>
+<label for="url" class="col-sm-2 col-form-label">Parameter ${addedParamCount + 2}</label>
 <div class="col-md-4">
-    <input type="text" class="form-control" id="parameterKey${addedParamCount+2}" placeholder="Enter Parameter ${addedParamCount+2} Key">
+    <input type="text" class="form-control" id="parameterKey${addedParamCount + 2}" placeholder="Enter Parameter ${addedParamCount + 2} Key">
 </div>
 <div class="col-md-4">
-    <input type="text" class="form-control" id="parameterValue${addedParamCount+2}"
-        placeholder="Enter Parameter ${addedParamCount+2} Value">
+    <input type="text" class="form-control" id="parameterValue${addedParamCount + 2}"
+        placeholder="Enter Parameter ${addedParamCount + 2} Value">
 </div>
 <button class="btn btn-primary deleteParam">-</button>
 </div>
 <div id="params"></div>
 </div>`;
 
-//convert the element string to dom node
-let paramElement=getElementFromString(string);
-params.appendChild(paramElement);
-//add an eventListener to delete a param on clicking -
-let deleteParam=document.getElementsByClassName('deleteParam');
-for (item of deleteParam){
-    item.addEventListener('click',(e)=>{
-        //add a confirmation box to confirm parameter deletion
-        e.target.parentElement.remove();
-    })
-}
-addedParamCount++;
+    //convert the element string to dom node
+    let paramElement = getElementFromString(string);
+    params.appendChild(paramElement);
+    //add an eventListener to delete a param on clicking -
+    let deleteParam = document.getElementsByClassName('deleteParam');
+    for (item of deleteParam) {
+        item.addEventListener('click', (e) => {
+            //add a confirmation box to confirm parameter deletion
+            e.target.parentElement.remove();
+        })
+    }
+    addedParamCount++;
 })
 
 
 //if the user clicks on submit button
-let submit=document.getElementById('submit');
-submit.addEventListener('click',()=>{
-  document.getElementById('responseJsonText').value= "please wait...Fetching response" ;
+let submit = document.getElementById('submit');
+submit.addEventListener('click', () => {
+    document.getElementById('responseJsonText').value = "please wait...Fetching response";
 
-  //fetch all the values,user has entered
-  let url=document.getElementById("url").value;
-  let requestType=document.querySelector("input[name='requestType']:checked").value;
-  let contentType=document.querySelector("input[name='contentType']:checked").value;
+    //fetch all the values,user has entered
+    let url = document.getElementById("url").value;
+    let requestType = document.querySelector("input[name='requestType']:checked").value;
+    let contentType = document.querySelector("input[name='contentType']:checked").value;
 
+    //log all the values in the console for debugging
+    //   console.log("url is",url);
+    //   console.log("requestType is",requestType);
+    //   console.log("content type is",contentType);
+    //if user has used params option inseatd of json coolect all the parameters in an object
+    if (contentType == 'params') {
+        data = {};
+        for (i = 0; i < addedParamCount + 1; i++) {
+            if (document.getElementById('parameterKey' + (i + 1)) != undefined){ //if we delete a custom parameter, it shouldn't throw error
+                let key = document.getElementById('parameterKey' + (i + 1)).value;
+            let value = document.getElementById('parameterValue' + (i + 1)).value;
+            data[key] = value;
+        }
+    }
+        data = JSON.stringify(data);
+    }
+    else {
+        data = document.getElementById('requestjsonText').value;
+    }
+    console.log("url is", url);
+    console.log("requestType is", requestType);
+    console.log("content type is", contentType);
+    console.log("data is", data);
 
-  console.log("url is",url);
-  console.log("requestType is",requestType);
-  console.log("content type is",contentType);
 })
