@@ -101,4 +101,29 @@ submit.addEventListener('click', () => {
     console.log("content type is", contentType);
     console.log("data is", data);
 
+//if the request type is post, invoke fech api to create a post request
+
+    if(requestType=='GET'){
+        fetch(url,{
+            method:'GET',
+        })
+        .then(response=>response.text())
+        .then((text)=>{
+            document.getElementById('responseJsonText').value=text;
+        });
+    }
+    else{
+        fetch(url,{
+            method:'POST',
+            body:data,
+            headers:{
+                "Content-type":"application/json;charset=UTF-8"
+            }
+        })
+        .then(response=>response.text())
+        .then((text)=>{
+            document.getElementById('responseJsonText').value=text;
+        });
+    }
+
 })
