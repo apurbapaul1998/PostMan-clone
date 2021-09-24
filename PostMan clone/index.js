@@ -70,7 +70,8 @@ addParam.addEventListener('click', () => {
 //if the user clicks on submit button
 let submit = document.getElementById('submit');
 submit.addEventListener('click', () => {
-    document.getElementById('responseJsonText').value = "please wait...Fetching response";
+    // document.getElementById('responseJsonText').value = "please wait...Fetching response";
+    document.getElementById('responsePrism').innerHTML="please wait...Fetching response";
 
     //fetch all the values,user has entered
     let url = document.getElementById("url").value;
@@ -109,7 +110,8 @@ submit.addEventListener('click', () => {
         })
         .then(response=>response.text())
         .then((text)=>{
-            document.getElementById('responseJsonText').value=text;
+            // document.getElementById('responseJsonText').value=text;
+            document.getElementById('responsePrism').innerHTML=text;
         });
     }
     else{
@@ -122,7 +124,8 @@ submit.addEventListener('click', () => {
         })
         .then(response=>response.text())
         .then((text)=>{
-            document.getElementById('responseJsonText').value=text;
+            // document.getElementById('responseJsonText').value=text;
+            document.getElementById('responsePrism').innerHTML=text;
         });
     }
 
