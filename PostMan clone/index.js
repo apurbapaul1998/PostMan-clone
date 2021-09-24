@@ -112,6 +112,7 @@ submit.addEventListener('click', () => {
         .then((text)=>{
             // document.getElementById('responseJsonText').value=text;
             document.getElementById('responsePrism').innerHTML=text;
+            Prism.highlightAll();
         });
     }
     else{
@@ -126,6 +127,7 @@ submit.addEventListener('click', () => {
         .then((text)=>{
             // document.getElementById('responseJsonText').value=text;
             document.getElementById('responsePrism').innerHTML=text;
+            Prism.highlightAll();
         });
     }
 
